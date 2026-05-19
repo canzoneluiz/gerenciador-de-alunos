@@ -50,8 +50,8 @@ def remover_aluno():
             alunos.remove(aluno)
             print('Aluno removido!')
             break
-    else:
-        print('aluno invalido!')
+        else:
+            print('aluno invalido!')
 
 def media_alunos():
     if len(alunos) == 0:
