@@ -61,14 +61,21 @@ def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
         print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Nota: {aluno[2]}")
 
-def busca_aluno():
+def encontrar_aluno():
     nome_procurado = input('Digite o nome: ')
     for aluno in alunos:
         if aluno[0].lower() == nome_procurado.lower():
+            return aluno
+    return None
+
+def busca_aluno():
+    aluno = encontrar_aluno()
+
+    if aluno:
             print(f'Nome: {aluno[0]}')
             print(f'Idade: {aluno[1]}')
             print(f'Nota final: {aluno[2]}')
-            break
+
     else:
         print('aluno invalido!')
 
