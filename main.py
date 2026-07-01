@@ -4,10 +4,11 @@ def mostrar_menu():
     print('''
 Cadastrar aluno: 1
 Listar alunos: 2
-Buscar aluno: 3
-Remover aluno: 4
-media da turma: 5
-Sair: 6''')
+editar aluno:3
+Buscar aluno: 4
+Remover aluno: 5
+media da turma: 6
+Sair: 7''')
 
 def menu_escolha():
     while True:
@@ -20,16 +21,26 @@ def menu_escolha():
             print('Escolha inválida!')
 
         except ValueError:
-            print('Digite apenas números!')
+            print('Digite apenas os números das opções!')
 
 def cadastrar_aluno():
     while True:
         nome = input('Digite o nome do aluno: ').strip()
 
-        if nome != "":
+        if nome == "":
+            print('Nome vazio! Tente novamente!')
+            continue
+
+        nome_valido = True
+
+        for caractere in nome:
+            if not caractere.isalpha() and caractere not in " -'":
+                print("Nome inválido! Use apenas letras, espaços, hífens e apóstrofos.")
+                nome_valido = False
+                break
+        if nome_valido:
             break
 
-        print('Nome vazio! Tente novamente!')
 
     while True:
         try:
@@ -60,6 +71,9 @@ def cadastrar_aluno():
 def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
         print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Nota: {aluno[2]}")
+
+def editar_aluno():
+    a=1
 
 def encontrar_aluno():
     nome_procurado = input('Digite o nome: ')
@@ -112,14 +126,17 @@ while True:
         lista_alunos()
 
     elif escolha == 3:
-        busca_aluno()
+        editar_aluno()
 
     elif escolha == 4:
-        remover_aluno()
+        busca_aluno()
 
     elif escolha == 5:
-        media_alunos()
+        remover_aluno()
 
     elif escolha == 6:
+        media_alunos()
+
+    elif escolha == 7:
         print('saindo do sistema')
         break
