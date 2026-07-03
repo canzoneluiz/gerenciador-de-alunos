@@ -46,7 +46,7 @@ def cadastrar_aluno():
         try:
             idade = int(input('Digite a idade: '))
 
-            if 0 < idade <= 100:
+            if 0 <= idade <= 100:
                 break
 
             print('Idade inválida! Tente novamente!')
@@ -56,17 +56,34 @@ def cadastrar_aluno():
 
     while True:
         try:
-            nota = float(input('Digite a nota final: '))
+            quantidade = int(input("Quantas notas deseja cadastrar? "))
 
-            if 0 <= nota <= 10:
+            if quantidade > 0:
                 break
 
-            print('Nota inválida! Tente novamente!')
+            print("Digite um número maior que zero!")
 
         except ValueError:
-            print('Digite um valor numérico!')
+            print("Digite um número inteiro!")
 
-    alunos.append([nome, idade, nota])
+    notas = []
+
+    for i in range(quantidade):
+        while True:
+            try:
+                nota = float(input(f"Digite a {i + 1}ª nota: "))
+
+                if 0 <= nota <= 10:
+                    notas.append(nota)
+                    break
+
+                print("Nota inválida!")
+
+            except ValueError:
+                print("Digite um número!")
+
+
+    alunos.append([nome, idade, notas])
 
 def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
