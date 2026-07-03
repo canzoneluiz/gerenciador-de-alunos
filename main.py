@@ -7,15 +7,16 @@ Listar alunos: 2
 editar aluno:3
 Buscar aluno: 4
 Remover aluno: 5
-media da turma: 6
-Sair: 7''')
+media do aluno:6
+media da turma: 7
+Sair: 8''')
 
 def menu_escolha():
     while True:
         try:
             escolher = int(input('O que deseja fazer? '))
 
-            if escolher in [1, 2, 3, 4, 5, 6]:
+            if escolher in [1, 2, 3, 4, 5, 6, 7, 8]:
                 return escolher
 
             print('Escolha inválida!')
@@ -87,13 +88,14 @@ def cadastrar_aluno():
 
 def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
-        print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Nota: {aluno[2]}")
+        print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Notas: {aluno[2]}")
 
 def editar_aluno():
     a=1
+    print(a)
 
 def encontrar_aluno():
-    nome_procurado = input('Digite o nome: ')
+    nome_procurado = input('Digite o nome do aluno: ')
     for aluno in alunos:
         if aluno[0].lower() == nome_procurado.lower():
             return aluno
@@ -105,10 +107,12 @@ def busca_aluno():
     if aluno:
             print(f'Nome: {aluno[0]}')
             print(f'Idade: {aluno[1]}')
-            print(f'Nota final: {aluno[2]}')
+            print(f'Notas: {aluno[2]}')
 
     else:
         print('aluno invalido!')
+
+
 
 def remover_aluno():
     nome_remover = input('Digite o nome do aluno: ')
@@ -121,12 +125,24 @@ def remover_aluno():
     else:
         print('aluno invalido!')
 
-def media_alunos():
+def calcular_media_aluno(aluno):
+    return sum(aluno[2]) / len(aluno[2])
+
+def media_aluno():
+    aluno = encontrar_aluno()
+
+    if aluno:
+        print(f'Média do aluno {aluno[0]} é: {calcular_media_aluno(aluno):.2f}')
+
+    else:
+        print('aluno invalido!')
+
+def media_turma():
     if len(alunos) == 0:
         print('lista de alunos vazia, adicione alunos para que a media seja calculada')
     else:
-        media = sum(aluno[2] for aluno in alunos) / len(alunos)
-        print(f"Média da turma: {media:.2f}")
+        calculo_media_turma = sum(calcular_media_aluno(aluno) for aluno in alunos) / len(alunos)
+        print(f"Média da turma: {calculo_media_turma:.2f}")
 
 
 
@@ -150,10 +166,13 @@ while True:
 
     elif escolha == 5:
         remover_aluno()
-
+        
     elif escolha == 6:
-        media_alunos()
+        media_aluno()
 
     elif escolha == 7:
+        media_turma()
+
+    elif escolha == 8:
         print('saindo do sistema')
         break
