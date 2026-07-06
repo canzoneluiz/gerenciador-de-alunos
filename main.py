@@ -91,19 +91,19 @@ def lista_alunos():
         print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Notas: {aluno[2]}")
 
 def editar_aluno():
-    a=1
-    print(a)
+    a = 1
+    
+def encontrar_aluno(nome):
+    nome = nome.strip().lower()
 
-def encontrar_aluno():
-    nome_procurado = input('Digite o nome do aluno: ')
     for aluno in alunos:
-        if aluno[0].lower() == nome_procurado.lower():
+        if aluno[0].lower() == nome:
             return aluno
     return None
 
 def busca_aluno():
-    aluno = encontrar_aluno()
-
+    nome = input('Digite o nome do aluno: ')
+    aluno = encontrar_aluno(nome)
     if aluno:
             print(f'Nome: {aluno[0]}')
             print(f'Idade: {aluno[1]}')
@@ -115,20 +115,20 @@ def busca_aluno():
 
 
 def remover_aluno():
-    nome_remover = input('Digite o nome do aluno: ')
+    nome = input('Digite o nome do aluno: ')
+    aluno = encontrar_aluno(nome)
 
-    for aluno in alunos:
-        if aluno[0].lower() == nome_remover.lower():
-            alunos.remove(aluno)
-            print('Aluno removido!')
-            break
+    if aluno:
+        alunos.remove(aluno)
+        print('Aluno removido!')
     else:
-        print('aluno invalido!')
+        print('Aluno inválido!')
 
 def calcular_media_aluno(aluno):
     return sum(aluno[2]) / len(aluno[2])
 
 def media_aluno():
+    nome = input('Digite o nome do aluno: ')
     aluno = encontrar_aluno()
 
     if aluno:
@@ -166,7 +166,7 @@ while True:
 
     elif escolha == 5:
         remover_aluno()
-        
+
     elif escolha == 6:
         media_aluno()
 
