@@ -7,9 +7,11 @@ import json
 # BANCO DE DADOS (JSON)
 # ==========================
 def carregar_alunos():
-    with open('alunos.json', 'r', encoding='utf-8') as json_file:
-        alunos = json.load(json_file)
-    return alunos
+    try:
+        with open('alunos.json', 'r', encoding='utf-8') as json_file:
+            return json.load(json_file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
 
 def salvar_alunos():
     with open('alunos.json', 'w', encoding='utf-8') as json_file:
@@ -47,6 +49,18 @@ def menu_escolha():
 # CADASTRO
 # ==========================
 def cadastrar_aluno():
+    nome = cadastrar_nome()
+    idade = cadastrar_idade()
+    notas = cadastrar_notas()
+
+    alunos.append({
+        "nome": nome,
+        "idade": idade,
+        "notas": notas
+    })
+    salvar_alunos()
+
+def cadastrar_nome():
     while True:
         nome = input('Digite o nome do aluno: ').strip()
 
@@ -63,7 +77,9 @@ def cadastrar_aluno():
                 break
         if nome_valido:
             break
+    return nome
 
+def cadastrar_idade():
     while True:
         try:
             idade = int(input('Digite a idade: '))
@@ -75,7 +91,9 @@ def cadastrar_aluno():
 
         except ValueError:
             print('Digite um valor numérico!')
+    return idade
 
+def cadastrar_notas():
     while True:
         try:
             quantidade = int(input("Quantas notas deseja cadastrar? "))
@@ -103,12 +121,7 @@ def cadastrar_aluno():
 
             except ValueError:
                 print("Digite um número!")
-
-    alunos.append([nome, idade, notas])
-    salvar_alunos()
-
-
-
+    return notas
 # ==========================
 # CONSULTAS
 # ==========================
@@ -116,7 +129,7 @@ def encontrar_aluno(nome):
     nome = nome.strip().lower()
 
     for aluno in alunos:
-        if aluno[0].lower() == nome:
+        if aluno['nome'].lower() == nome:
             return aluno
     return None
 
@@ -124,16 +137,16 @@ def busca_aluno():
     nome = input('Digite o nome do aluno: ')
     aluno = encontrar_aluno(nome)
     if aluno:
-        print(f'Nome: {aluno[0]}')
-        print(f'Idade: {aluno[1]}')
-        print(f'Notas: {aluno[2]}')
+        print(f"Nome: {aluno['nome']}")
+        print(f"Idade: {aluno['idade']}")
+        print(f"Notas: {aluno['notas']}")
 
     else:
         print('aluno invalido!')
 
 def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
-        print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Notas: {aluno[2]}")
+        print(f"{indice}_ Nome: {aluno['nome']} | Idade: {aluno['idade']} | Notas: {aluno['notas']}")
 
 # ==========================
 # EDIÇÃO
@@ -159,7 +172,10 @@ def remover_aluno():
 # MÉDIAS
 # ==========================
 def calcular_media_aluno(aluno):
-    return sum(aluno[2]) / len(aluno[2])
+    if len(aluno['notas']) == 0:
+        return None
+
+    return sum(aluno['notas']) / len(aluno['notas'])
 
 
 def media_aluno():
@@ -167,7 +183,12 @@ def media_aluno():
     aluno = encontrar_aluno(nome)
 
     if aluno:
-        print(f'Média do aluno {aluno[0]} é: {calcular_media_aluno(aluno):.2f}')
+        media = calcular_media_aluno(aluno)
+
+        if media is None:
+            print(f"O aluno {aluno['nome']} não possui notas cadastradas.")
+        else:
+            print(f"Média do aluno {aluno['nome']} é: {media:.2f}")
 
     else:
         print('aluno invalido!')
