@@ -1,16 +1,24 @@
+# ==========================
+# IMPORTAÇÕES
+# ==========================
 import json
 
+# ==========================
+# BANCO DE DADOS (JSON)
+# ==========================
 def carregar_alunos():
     with open('alunos.json', 'r', encoding='utf-8') as json_file:
         alunos = json.load(json_file)
     return alunos
 
-alunos = carregar_alunos()
-
 def salvar_alunos():
     with open('alunos.json', 'w', encoding='utf-8') as json_file:
         json.dump(alunos, json_file, indent=4)
 
+alunos = carregar_alunos()
+# ==========================
+# MENU
+# ==========================
 def mostrar_menu():
     print('''
 Cadastrar aluno: 1
@@ -21,7 +29,6 @@ Remover aluno: 5
 media do aluno:6
 media da turma: 7
 Sair: 8''')
-
 
 def menu_escolha():
     while True:
@@ -36,7 +43,9 @@ def menu_escolha():
         except ValueError:
             print('Digite apenas os números das opções!')
 
-
+# ==========================
+# CADASTRO
+# ==========================
 def cadastrar_aluno():
     while True:
         nome = input('Digite o nome do aluno: ').strip()
@@ -98,15 +107,11 @@ def cadastrar_aluno():
     alunos.append([nome, idade, notas])
     salvar_alunos()
 
-def lista_alunos():
-    for indice, aluno in enumerate(alunos, start=1):
-        print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Notas: {aluno[2]}")
 
 
-def editar_aluno():
-    a = 1
-
-
+# ==========================
+# CONSULTAS
+# ==========================
 def encontrar_aluno(nome):
     nome = nome.strip().lower()
 
@@ -114,7 +119,6 @@ def encontrar_aluno(nome):
         if aluno[0].lower() == nome:
             return aluno
     return None
-
 
 def busca_aluno():
     nome = input('Digite o nome do aluno: ')
@@ -127,7 +131,19 @@ def busca_aluno():
     else:
         print('aluno invalido!')
 
+def lista_alunos():
+    for indice, aluno in enumerate(alunos, start=1):
+        print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Notas: {aluno[2]}")
 
+# ==========================
+# EDIÇÃO
+# ==========================
+def editar_aluno():
+    a = 1
+
+# ==========================
+# REMOÇÃO
+# ==========================
 def remover_aluno():
     nome = input('Digite o nome do aluno: ')
     aluno = encontrar_aluno(nome)
@@ -139,7 +155,9 @@ def remover_aluno():
     else:
         print('Aluno inválido!')
 
-
+# ==========================
+# MÉDIAS
+# ==========================
 def calcular_media_aluno(aluno):
     return sum(aluno[2]) / len(aluno[2])
 
@@ -162,34 +180,40 @@ def media_turma():
         calculo_media_turma = sum(calcular_media_aluno(aluno) for aluno in alunos) / len(alunos)
         print(f"Média da turma: {calculo_media_turma:.2f}")
 
+# ==========================
+# PROGRAMA PRINCIPAL
+# ==========================
+def main():
+    while True:
 
-while True:
+        mostrar_menu()
 
-    mostrar_menu()
+        escolha = menu_escolha()
 
-    escolha = menu_escolha()
+        if escolha == 1:
+            cadastrar_aluno()
 
-    if escolha == 1:
-        cadastrar_aluno()
+        elif escolha == 2:
+            lista_alunos()
 
-    elif escolha == 2:
-        lista_alunos()
+        elif escolha == 3:
+            editar_aluno()
 
-    elif escolha == 3:
-        editar_aluno()
+        elif escolha == 4:
+            busca_aluno()
 
-    elif escolha == 4:
-        busca_aluno()
+        elif escolha == 5:
+            remover_aluno()
 
-    elif escolha == 5:
-        remover_aluno()
+        elif escolha == 6:
+            media_aluno()
 
-    elif escolha == 6:
-        media_aluno()
+        elif escolha == 7:
+            media_turma()
 
-    elif escolha == 7:
-        media_turma()
+        elif escolha == 8:
+            print('saindo do sistema')
+            break
 
-    elif escolha == 8:
-        print('saindo do sistema')
-        break
+if __name__ == "__main__":
+    main()
