@@ -1,4 +1,15 @@
-alunos = []
+import json
+
+def carregar_alunos():
+    with open('alunos.json', 'r', encoding='utf-8') as json_file:
+        alunos = json.load(json_file)
+    return alunos
+
+alunos = carregar_alunos()
+
+def salvar_alunos():
+    with open('alunos.json', 'w', encoding='utf-8') as json_file:
+        json.dump(alunos, json_file, indent=4)
 
 def mostrar_menu():
     print('''
@@ -10,6 +21,7 @@ Remover aluno: 5
 media do aluno:6
 media da turma: 7
 Sair: 8''')
+
 
 def menu_escolha():
     while True:
@@ -23,6 +35,7 @@ def menu_escolha():
 
         except ValueError:
             print('Digite apenas os números das opções!')
+
 
 def cadastrar_aluno():
     while True:
@@ -41,7 +54,6 @@ def cadastrar_aluno():
                 break
         if nome_valido:
             break
-
 
     while True:
         try:
@@ -83,16 +95,18 @@ def cadastrar_aluno():
             except ValueError:
                 print("Digite um número!")
 
-
     alunos.append([nome, idade, notas])
+    salvar_alunos()
 
 def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
         print(f"{indice}_ Nome: {aluno[0]} | Idade: {aluno[1]} | Notas: {aluno[2]}")
 
+
 def editar_aluno():
     a = 1
-    
+
+
 def encontrar_aluno(nome):
     nome = nome.strip().lower()
 
@@ -101,17 +115,17 @@ def encontrar_aluno(nome):
             return aluno
     return None
 
+
 def busca_aluno():
     nome = input('Digite o nome do aluno: ')
     aluno = encontrar_aluno(nome)
     if aluno:
-            print(f'Nome: {aluno[0]}')
-            print(f'Idade: {aluno[1]}')
-            print(f'Notas: {aluno[2]}')
+        print(f'Nome: {aluno[0]}')
+        print(f'Idade: {aluno[1]}')
+        print(f'Notas: {aluno[2]}')
 
     else:
         print('aluno invalido!')
-
 
 
 def remover_aluno():
@@ -120,16 +134,19 @@ def remover_aluno():
 
     if aluno:
         alunos.remove(aluno)
+        salvar_alunos()
         print('Aluno removido!')
     else:
         print('Aluno inválido!')
 
+
 def calcular_media_aluno(aluno):
     return sum(aluno[2]) / len(aluno[2])
 
+
 def media_aluno():
     nome = input('Digite o nome do aluno: ')
-    aluno = encontrar_aluno()
+    aluno = encontrar_aluno(nome)
 
     if aluno:
         print(f'Média do aluno {aluno[0]} é: {calcular_media_aluno(aluno):.2f}')
@@ -137,13 +154,13 @@ def media_aluno():
     else:
         print('aluno invalido!')
 
+
 def media_turma():
     if len(alunos) == 0:
         print('lista de alunos vazia, adicione alunos para que a media seja calculada')
     else:
         calculo_media_turma = sum(calcular_media_aluno(aluno) for aluno in alunos) / len(alunos)
         print(f"Média da turma: {calculo_media_turma:.2f}")
-
 
 
 while True:
