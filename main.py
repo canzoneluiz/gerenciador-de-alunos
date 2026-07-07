@@ -25,10 +25,10 @@ def mostrar_menu():
     print('''
 Cadastrar aluno: 1
 Listar alunos: 2
-editar aluno:3
+editar aluno: 3
 Buscar aluno: 4
 Remover aluno: 5
-media do aluno:6
+media do aluno: 6
 media da turma: 7
 Sair: 8''')
 
@@ -152,8 +152,104 @@ def lista_alunos():
 # EDIÇÃO
 # ==========================
 def editar_aluno():
-    a = 1
+    nome = input('Digite o nome do aluno que deseja editar: ')
+    aluno = encontrar_aluno(nome)
+    if not aluno:
+        print('aluno invalido!')
 
+    else:
+        while True:
+            menu_edicao()
+            escolha = escolha_edicao()
+
+            if escolha == 1:
+                editar_nome(aluno)
+
+            elif escolha == 2:
+                editar_idade(aluno)
+
+            elif escolha == 3:
+                editar_notas(aluno)
+
+            elif escolha == 4:
+                print('Saindo do menu de edição')
+                break
+
+
+def menu_edicao():
+    print('''
+    editar nome: 1
+    editar idade: 2
+    editar notas: 3
+    fechar edição: 4''')
+
+def escolha_edicao():
+    while True:
+        try:
+            escolher = int(input('O que deseja fazer? '))
+
+            if escolher in [1, 2, 3, 4]:
+                return escolher
+
+            print('Escolha inválida!')
+
+        except ValueError:
+            print('Digite apenas os números das opções!')
+
+def editar_nome(aluno):
+    aluno['nome'] = cadastrar_nome()
+    salvar_alunos()
+
+def editar_idade(aluno):
+    aluno['idade'] = cadastrar_idade()
+    salvar_alunos()
+
+def editar_notas(aluno):
+    while True:
+        menu_edicao_notas()
+        escolha = escolha_edicao_notas()
+        if escolha == 1:
+
+
+        elif escolha == 2:
+            adicionar_nota(aluno)
+
+        elif escolha == 3:
+
+
+        elif escolha == 4:
+            print('Saindo do menu de edição')
+            break
+
+def menu_edicao_notas():
+    print('''
+    alterar uma nota atual: 1
+    adicionar novas notas: 2
+    remover nota: 3
+    voltar: 4''')
+
+
+
+def escolha_edicao_notas():
+    while True:
+        try:
+            escolher = int(input('O que deseja fazer? '))
+
+            if escolher in [1, 2, 3, 4]:
+                return escolher
+
+            print('Escolha inválida!')
+
+        except ValueError:
+            print('Digite apenas os números das opções!')
+
+def adicionar_nota(aluno):
+    nova_nota = cadastrar_notas()
+    aluno["notas"].append(nova_nota)
+    salvar_alunos()
+    print("Nota adicionada com sucesso!")
+
+def remover_nota(aluno):
 # ==========================
 # REMOÇÃO
 # ==========================
