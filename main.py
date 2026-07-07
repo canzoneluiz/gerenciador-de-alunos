@@ -146,7 +146,7 @@ def busca_aluno():
 
 def lista_alunos():
     for indice, aluno in enumerate(alunos, start=1):
-        print(f"{indice}_ Nome: {aluno['nome']} | Idade: {aluno['idade']} | Notas: {aluno['notas']}")
+        print(f"{indice}- Nome: {aluno['nome']} | Idade: {aluno['idade']} | Notas: {aluno['notas']}")
 
 # ==========================
 # EDIÇÃO
@@ -209,13 +209,13 @@ def editar_notas(aluno):
         menu_edicao_notas()
         escolha = escolha_edicao_notas()
         if escolha == 1:
-
+            alterar_nota(aluno)
 
         elif escolha == 2:
             adicionar_nota(aluno)
 
         elif escolha == 3:
-
+            remover_nota(aluno)
 
         elif escolha == 4:
             print('Saindo do menu de edição')
@@ -242,6 +242,19 @@ def escolha_edicao_notas():
 
         except ValueError:
             print('Digite apenas os números das opções!')
+
+def mostrar_notas(aluno):
+    if len(aluno["notas"]) == 0:
+        print("O aluno não possui notas cadastradas.")
+        return
+
+    for indice, nota in enumerate(aluno["notas"], start=1):
+        print(f"{indice} - {nota}")
+
+def alterar_nota(aluno):
+    mostrar_notas(aluno)
+    nota_escolhida = input('Qual nota deseja alterar? ')
+    
 
 def adicionar_nota(aluno):
     nova_nota = cadastrar_notas()
